@@ -1,7 +1,6 @@
 package com.sxgy.sp26.action;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
