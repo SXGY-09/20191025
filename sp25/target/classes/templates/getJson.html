@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>集合-->Json</title>
+	<script type="text/javascript" th:src="@{js/jquery-3.3.1.js}"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			findBooks();
+		});
+		function findBooks(){
+			$.ajax({
+				type:"get",
+				url:"/findBooks",
+				success:function(data){
+					$.each(data,function(){
+						var tr=$("<tr align='center'/>");
+						$("<img/>").attr("src","images/"+this.image).attr("height",60)
+						.appendTo("<td/>").appendTo(tr);
+						$("<td/>").html(this.title).appendTo(tr);
+						$("<td/>").html(this.author).appendTo(tr);
+						$("<td/>").html(this.price).appendTo(tr);
+						$("tbody").append(tr);
+					})
+				},
+				dataType:"json"
+			});
+		}
+	</script>
+</head>
+<body>
+	<h2>获取Json数据填入表格</h2>
+	<div align="center">
+	<table border=1>
+		<thead><tr><th>封面</th><th>书名</th><th>作者</th><th>价格</th></tr>
+		</thead>
+		<tbody></tbody>
+	</table>
+	</div>
+</body>
+</html>

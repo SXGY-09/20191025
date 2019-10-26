@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www/thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Spring boot 自动转换Json数据</title>
+	<script type="text/javascript" th:src="@{js/jquery-3.3.1.js}"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			findBook();
+		});
+		function findBook(){
+			$.ajax({
+				url:"/findBook",
+				type:"post",
+				dataType:"json",//预期服务器返回的数据类型
+				contentType:"application/json",//发送信息至服务器时的内容编码类型
+				data:JSON.stringify({id:1,title:"book-001"}),//发送到服务器的数据
+				async:true,//默认设置，异步请求
+				success:function(data){
+					console.log(data);
+					$("#image").attr("src","images/"+data.image+"");
+					$("#name").html(data.title);
+					$("#author").html(data.author);
+					$("#price").html(data.price);
+					$("#remark").html(data.remark);
+				},
+				error:function(){
+					alert("数据发送失败")
+				}
+			});
+		}
+	</script>
+</head>
+<body>
+	<h2>发送和接受Json数据</h2>
+	<div class="container">
+		<p>封面:<img height=500 id="image" src="images/1.jpg"/></p>
+		<p>书名:<span id="name"></span>
+		<p>作者:<span id="author"></span>
+		<p>价格:<span id="price"></span>
+		<p>简介:<span id="remark"></span>
+	</div>
+</body>
+</html>
