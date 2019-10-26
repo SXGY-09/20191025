@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script type="text/javascript" th:src="@{js/jquery-3.3.1.js}"></script>
+</head>
+<body>
+	<h2>文件上传示例</h2>
+	<div class="container">
+		<!-- 负责上传文件的表单编码类型必须是"multipart/form-data"类型 -->
+		<form action="upload" enctype="multipart/form-data" method="post">
+			<div class="form-group">
+				<div class="input-group"><span class="input-group-addon">文件描述</span>
+				<input class="form-control" placeholder="文件描述" name="description" type="text"/></div>
+			</div><br>
+			<div class="form-group">
+				<div class="input-group"><span class="input-group-addon">浏览文件</span>
+				<input class="form-control" placeholder="请选择文件" name="file" type="file"/></div>
+			</div><br>
+			<div class="form-group">
+				<div class="btn-group"><button type="submit" id="submit">文件上传</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

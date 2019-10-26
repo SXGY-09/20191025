@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+<body>
+	<h2>文件上传示例:用户注册</h2>
+	<div class="container">
+		<!-- 负责上传文件的表单编码类型必须是"multipart/form-data"类型 -->
+		<form action="register" enctype="multipart/form-data" method="post">
+			<div class="form-group">
+				<div class="input-group"><span class="input-group-addon">用户名</span>
+				<input class="form-control" placeholder="用户名" name="username" type="text"/></div>
+			</div><br>
+			<div class="form-group">
+				<div class="input-group"><span class="input-group-addon">浏览文件</span>
+				<input class="form-control" placeholder="请选择头像" name="headPortrait" type="file"/></div>
+			</div><br>
+			<div class="form-group">
+				<div class="btn-group"><button type="submit" id="submit">注册</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

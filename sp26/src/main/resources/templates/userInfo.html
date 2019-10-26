@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+<body>
+	<div align="center">
+		<table><tbody><tr>
+			<td><img th:src="@{'upload/'+${user.headPortrait.originalFilename}}" height=30/></td>
+			<td th:text="${user.username}">用户名</td>
+			<td><a th:href="@{download(filename=${user.headPortrait.originalFilename})}">下载头像</a></td>
+		</tr></tbody></table>
+	</div>
+	<div align="center"><a href="/">Go to home page</a></div>
+</body>
+</html>
