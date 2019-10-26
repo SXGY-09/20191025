@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script type="text/javascript" th:src="@{js/jquery-3.3.1.js}"></script>
+</head>
+<body>
+	<h2>循环</h2>
+	<div align="center"><table border=1>
+		<thead>
+			<tr align="center"><th>封面</th><th>书名</th><th>作者</th><th>价格</th></tr>
+		</thead>
+		<tbody align="center">
+			<tr th:each="book:${books}">
+				<td><img src="images/java.jpg" th:src="@{'images/'+${book.image}}" height="60"/></td>
+				<td th:text="${book.title}">书名</td>
+				<td th:text="${book.author}">作者</td>
+				<td th:text="${book.price}">价格</td>
+			</tr>
+		</tbody>
+	</table></div>
+</body>
+</html>

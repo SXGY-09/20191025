@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>test1</title>
+	<script type="text/javascript" th:src="@{js/jquery-3.3.1.js}"></script>
+</head>
+<body>
+	<h2>使用thymeleaf表达式访问数据</h2>
+	<div>
+		<p><font color="red">${param.x}将返回一个名为x的请求参数</font></p><br>
+		访问页面传递的参数：<span th:text="${param.name}">登录名</span>
+		&nbsp;<span th:text="${param.password[0]}">密码</span>
+		<p><font color="red">${x}将返回存储在thymeleaf上下文的变量x或作为请求request范围内的属性</font>
+		</p><br>
+		访问request作用域内的属性：<span th:text="${book}"></span>
+		<p><font color="red">${session.x}将返回回话session范围内的属性x</font>
+		</p><br>
+		访问session作用域内的属性：<span th:text="${session.school}"></span>
+		<p><font color="red">${application.x}将返回回话servletContext范围内的属性x</font>
+		</p><br>
+		访问session作用域内的属性：<span th:text="${application.name}"></span>
+	</div>
+</body>
+</html>

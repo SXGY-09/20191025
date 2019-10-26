@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>thymeleaf 示例</title>
+	<script type="text/javascript" th:src="@{js/jquery-3.3.1.js}"></script>
+</head>
+<body>
+	<ol>
+		<li><a th:href="@{datatest?name=jack&amp;password=123}">thymeleaf表达式访问数据</a></li>
+		<li><a th:href="@{iftest}">thymeleaf表达式条件判断</a></li>
+		<li><a th:href="@{eachtest}">thymeleaf表达式循环</a></li>
+	</ol>
+</body>
+</html>
