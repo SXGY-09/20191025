@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script type="text/javascript" th:src="@{js/jquery-3.3.1.js}"></script>
+	<script type="text/javascript">
+		$(function(){
+			$("#loginBtn").click(function(){
+				var name=$("#username");
+				var passwd=$("#passwd");
+				var msg="";
+				if(name.val()==""){
+					msg="登录名不能为空！"
+					name.focus();
+				}else if(passwd.val()==""){
+					msg="密码不能为空！";
+					passwd.focus();
+				}
+				if(msg!=""){
+					alert(msg);
+				}else{
+					window.location.href="login?username="+name.val()
+							+"&passwd="+passwd.val();
+				}
+			})
+		})
+	</script>
+</head>
+<body>
+	<h2>用户登录</h2>
+	<table>
+		<tr><td>账号</td><td colspan=3><input type="text" id="username"></td></tr>
+		<tr><td>密码</td><td colspan=3><input type="password" id="passwd"></td></tr>
+		<tr><td colspan=2><button id="loginBtn">登录</button></td>
+			<td colspan=2><button id="register">注册</button></td></tr>
+	</table>
+</body>
+</html>
