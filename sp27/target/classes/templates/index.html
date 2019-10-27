@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script type="text/javascript" th:src="@{js/jquery-3.3.1.js}"></script>
+</head>
+<body>
+	<div align="center">
+		<a th:href="@{hello}">Spring Boot default exception handler</a><br>
+		<a th:href="@{test}">@ExceptionHandler exception handler</a><br>
+		<hr>
+		<a th:href="@{login}">UserController父级异常处理</a><br>
+		<a th:href="@{find}">BaseController父级异常处理</a><br>
+		<hr>
+		<a th:href="@{add}">Advice异常处理返回Json</a><br>
+	</div>
+</body>
+</html>

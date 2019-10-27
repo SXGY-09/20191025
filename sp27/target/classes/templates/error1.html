@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script type="text/javascript" th:src="@{js/jquery-3.3.1.js}"></script>
+</head>
+<body>
+	<div align="center">
+		<div th:text="统一异常处理"></div>
+		<div th:text="${url}"></div>
+		<div th:text="${exception.message}"></div>
+	</div>
+</body>
+</html>
