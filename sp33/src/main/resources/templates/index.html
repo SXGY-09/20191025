@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div align="left">
+		<h2>student</h2>
+		<a th:href="@{/student/save}">插入记录</a><br>
+		<a th:href="@{/student/name(name='孙悟空')}">通过姓名查询</a><br>
+		<a th:href="@{/student/address(name='蜘蛛精',address='广州')}">通过姓名和地址查询</a><br>
+		<a th:href="@{/student/like(name='魔王')}">通过姓名模糊匹配</a>
+		<hr>
+		<h2>school-stu and clz</h2>
+		<a th:href="@{/school/save}">添加班级和学生</a><br>
+		<a th:href="@{/school/getClzStus(clzName='201901')}">查询班级所有学生姓名，性别，年龄</a><br>
+		<a th:href="@{/school/findNameAndSex(clzName='201901')}">查询班级所有学生姓名，性别</a><br>
+		<a th:href="@{/school/findName(clzName='201901',sex='女')}">查询班级所有女生姓名</a><br>
+		<a th:href="@{/school/findClzName(stuName='牛魔王')}">查询学生所在班级</a><br>
+		<a th:href="@{/school/deleteStu(stuName='牛魔王')}">删除学生</a><br>
+		<a th:href="@{/school/namedQuery(clzName='201901')}">使用NamedQuery方式查询</a><br>
+		<hr>
+		<h2>specification executor</h2>
+		<a th:href="@{/specification/save}">插入记录</a><br>
+		<a th:href="@{/specification/getBySex(sex='女')}">查询女生</a><br>
+		<a th:href="@{/specification/getByDynamic(clz.name=201902)}">模糊查询</a><br>
+		<a th:href="@{/specification/getByPages(clzName='201901',pageIndex=1,pageSize=2)}">分页查询</a><br>
+	</div>
+</body>
+</html>
