@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div align="left">
+		<h2>jdbc template</h2>
+		<a th:href="@{/jdbcTemplate/insert}">插入记录</a><br>
+		<a th:href="@{/jdbcTemplate/getKey(username='铁扇公主',loginName='tsgz',password='1212')}">插入记录生成主键</a><br>
+		<a th:href="@{/jdbcTemplate/findAll}">查询所有</a><br>
+		<a th:href="@{/jdbcTemplate/update(username='铁扇公主',loginName='tsgz',password='1212',id=3)}">更新</a><br>
+		<a th:href="@{/jdbcTemplate/delete(id=1)}">删除</a><br>
+		<hr>
+		<h2>mybatis</h2>
+		<a th:href="@{/mybatis/insert(username='铁扇公主',loginName='tsgz',password='1212')}">插入记录</a><br>
+		<a th:href="@{/mybatis/getKey(username='铁扇公主',loginName='tsgz',password='1212')}">插入记录生成主键</a><br>
+		<a th:href="@{/mybatis/findAll}">查询所有</a><br>
+		<a th:href="@{/mybatis/update(username='铁扇公主',loginName='tsgz',password='1212',id=2)}">更新</a><br>
+		<a th:href="@{/mybatis/delete(id=3)}">删除</a><br>
+	</div>
+</body>
+</html>
