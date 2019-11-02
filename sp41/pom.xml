@@ -17,6 +17,7 @@
 
     <modules>
         <module>security</module>
+        <module>jpasecurity</module>
     </modules>
     <build>
         <pluginManagement>

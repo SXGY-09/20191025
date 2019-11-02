@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{js/jquery-3.3.1.js}"></script>
+    <script>
+        $(function () {
+            $("#loginBtn").click(function () {
+                var loginName=$("#loginName");
+                var password=$("#password");
+                var msg="";
+                if(loginName.val()==""){
+                    msg="登录名不能为空";
+                    loginName.focus();
+                }else if(password.val()==""){
+                    msg="密码不能为空";
+                    password.focus();
+                }
+                if(msg!=""){
+                    alert(msg);
+                    return false;
+                }
+                $("#form1").submit();
+            })
+        })
+    </script>
+</head>
+<body>
+    <div>
+        <form id="form1" th:action="@{/login}" method="post">
+            <div th:if="${param.error!=null}">
+                <p><font color="red">用户名或密码错误</font> </p>
+            </div>
+            <div th:if="${param.logout!=null}">
+                <p><font color="red">注销成功</font> </p>
+            </div>
+            <div>
+                <label>用户名</label>
+                <input type="text" id="loginName" name="loginName" placeholder="请输入用户名"/>
+            </div>
+            <div>
+                <label>密码</label>
+                <input type="password" id="password" name="password" placeholder="请输入密码"/>
+            </div>
+            <div>
+                <input type="button" id="loginBtn" value="登录"/>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
