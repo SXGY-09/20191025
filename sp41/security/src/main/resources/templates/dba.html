@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>dba</h2>
+    <h3>欢迎[<font color="red"><span th:text="${user}">用户名</span></font>]访问dba页面!<br>
+    您的权限是<font color="red"><span th:text="${role}">权限</span></font></h3>
+    <div>
+        <a th:href="logout">安全退出</a><br>
+    </div>
+</body>
+</html>
