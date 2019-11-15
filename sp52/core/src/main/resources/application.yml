@@ -1,0 +1,19 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: sp52
+  profiles:
+    active: dev
+mybatis-plus:
+  mapper-locations: com.sxgy.sp52.*.mapper
+  type-aliases-package: com.sxgy.sp52
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true
+    lazy-loading-enabled: true
+    multiple-result-sets-enabled: true
+    use-generated-keys: true
+    default-statement-timeout: 60
+    default-fetch-size: 100
+

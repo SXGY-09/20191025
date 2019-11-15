@@ -1,0 +1,18 @@
+mysql:
+  ip: 127.0.0.1
+  port: 3306
+  database: sp52
+spring:
+  resources:
+    static-locations: classpath:/META-INF/resources,classpath:/resources/,classpath:/static/,classpath:/public/
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+  datasource:
+    platform: mysql
+    url: jdbc:mysql://${mysql.ip}:${mysql.port}/${mysql.database}?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+debug: true
