@@ -28,6 +28,12 @@
             <property name="useActualColumnNames" value="false"/>
             <generatedKey column="stu_id" sqlStatement="Mysql" identity="true"/>
         </table>
+        <table tableName="sp_admin" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false" selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="admin_id" sqlStatement="Mysql" identity="true"/>
+        </table>
     </context>
 </generatorConfiguration>
 
