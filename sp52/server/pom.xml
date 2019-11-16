@@ -10,6 +10,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>server</artifactId>
+    <name>server</name>
+    <description>服务运行模块</description>
 
     <dependencies>
         <dependency>

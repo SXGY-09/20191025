@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2019-11-15 22:20
  */
 @RestController
-@RequestMapping(value = "/api/v1",method = {RequestMethod.GET,RequestMethod.POST})
+@RequestMapping(value = "business/api/v1/student",method = {RequestMethod.GET,RequestMethod.POST})
 @Api(tags = "学生管理")
 public class StuController {
     @Autowired

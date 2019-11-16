@@ -10,4 +10,5 @@ public interface SpAdminMapper {
      * @mbg.generated
      */
     Long insertReturnKey(SpAdmin record);
+    SpAdmin findByName(SpAdmin admin);
 }

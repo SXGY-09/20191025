@@ -21,4 +21,9 @@
     insert into sp_admin (admin_name, admin_password)
     values (#{adminName,jdbcType=VARCHAR}, #{adminPassword,jdbcType=VARCHAR})
   </insert>
+  <select id="findByName" parameterMap="BaseResultMap" resultMap="BaseResultMap">
+    SELECT *
+    FROM sp_admin
+    WHERE admin_name=#{adminName,jdbcType=VARCHAR}
+  </select>
 </mapper>

@@ -12,6 +12,7 @@
         <module>core</module>
         <module>server</module>
         <module>business</module>
+        <module>system</module>
     </modules>
     <name>sp52</name>
     <url>http://www.sxgy.com/sp52</url>
