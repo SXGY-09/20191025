@@ -1,6 +1,6 @@
 package com.sxgy.sp52.core;
 
-import com.sxgy.sp52.core.security.Md5Util;
+import com.sxgy.sp52.core.util.security.Md5Util;
 import org.junit.Test;
 
 /**

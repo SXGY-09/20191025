@@ -6,15 +6,30 @@
     <properties resource="mybatis-generator-config.properties"/>
     <context id="context1" targetRuntime="MyBatis3">
         <property name="javaFileEncoding" value="UTF-8"/>
+        <!--<plugin type="com.sxgy.sp52.core.util.mybatis.LombokPlugin">
+            <property name="hasLombok" value="true"/>
+            <property name="author.name" value="SXGY_09"/>
+        </plugin>-->
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <!--<commentGenerator type="com.sxgy.sp52.core.util.mybatis.MyCommentGenerator">-->
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <!--<property name="author.name" value="SXGY_09"/>
+            <property name="suppressAllComments" value="false" />
+            <property name="suppressDate" value="true" />
+        </commentGenerator>-->
         <commentGenerator>
-            <property name="addRemarkComments" value="true"/>
-            <property name="suppressDate" value="true"/>
+            <property name="suppressDate" value="false"/>
+            <property name="suppressAllComments" value="false"/>
+            <!-- 将数据库中表的字段描述信息添加到注释 -->
+            <property name="addRemarkComments" value="true" />
         </commentGenerator>
         <jdbcConnection driverClass="${mysql.driver-class-name}"
                         connectionURL="${mysql.url}"
                         userId="${mysql.user-id}"
-                        password="${mysql.password}"/>
+                        password="${mysql.password}">
+        <!--针对mysql数据库,读取表注释-->
+            <property name="useInformationSchema" value="true"/>
+        </jdbcConnection>
         <javaModelGenerator targetPackage="com.sxgy.sp52.core.pojo"
                             targetProject="src/main/java"/>
         <sqlMapGenerator targetPackage="com.sxgy.sp52.core.mapper"
@@ -22,17 +37,11 @@
         <javaClientGenerator type="XMLMAPPER"
                              targetPackage="com.sxgy.sp52.core.mapper"
                              targetProject="src/main/java"/>
-        <table tableName="sp_student" enableCountByExample="false"
+        <table tableName="sp52_%" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false"/>
-            <generatedKey column="stu_id" sqlStatement="Mysql" identity="true"/>
-        </table>
-        <table tableName="sp_admin" enableCountByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               enableUpdateByExample="false" selectByExampleQueryId="false">
-            <property name="useActualColumnNames" value="false"/>
-            <generatedKey column="admin_id" sqlStatement="Mysql" identity="true"/>
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
     </context>
 </generatorConfiguration>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxgy.sp52.system.mapper.Sp52RoleMapper">
+  <resultMap id="BaseResultMap" type="com.sxgy.sp52.core.pojo.Sp52Role">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="role_state" jdbcType="TINYINT" property="roleState" />
+  </resultMap>
+  <select id="findByAdminId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    SELECT r.*
+    FROM sp52_role r JOIN sp52_admin_role ar ON r.id=ar.role_id
+    WHERE
+    ar.admin_id=#{adminId}
+  </select>
+</mapper>

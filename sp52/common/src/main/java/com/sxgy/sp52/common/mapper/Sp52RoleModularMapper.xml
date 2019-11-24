@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxgy.sp52.common.mapper.Sp52RoleModularMapper">
+  <resultMap id="BaseResultMap" type="com.sxgy.sp52.core.pojo.Sp52RoleModular">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="role_id" jdbcType="BIGINT" property="roleId" />
+    <result column="modular_id" jdbcType="BIGINT" property="modularId" />
+  </resultMap>
+  <resultMap id="AuthRoleModular" type="com.sxgy.sp52.core.domain.AuthRoleModulars">
+    <result column="id" jdbcType="BIGINT" property="id"/>
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="role_state" jdbcType="TINYINT" property="roleState"/>
+    <collection property="modularIds" ofType="java.lang.Long">
+      <result column="modular_id" jdbcType="BIGINT" property="modularId"/>
+    </collection>
+  </resultMap>
+  <select id="findRoleModular" resultMap="AuthRoleModular">
+    SELECT r.*,rm.modular_id
+    FROM sp52_role r
+      LEFT JOIN sp52_role_modular rm ON r.id=rm.role_id
+    GROUP BY r.id,rm.modular_id
+    ORDER BY r.id,rm.modular_id
+  </select>
+</mapper>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxgy.sp52.common.mapper.Sp52ModularMapper">
+  <resultMap id="BaseResultMap" type="com.sxgy.sp52.core.pojo.Sp52Modular">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="page_name" jdbcType="VARCHAR" property="pageName" />
+    <result column="page_url" jdbcType="VARCHAR" property="pageUrl" />
+    <result column="page_method" jdbcType="CHAR" property="pageMethod" />
+    <result column="page_catalog" jdbcType="TINYINT" property="pageCatalog" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modular_state" jdbcType="TINYINT" property="modularState" />
+  </resultMap>
+  <resultMap id="BaseResultMap_AuthModulars" type="com.sxgy.sp52.core.domain.AuthModulars">
+    <result column="m1_id" jdbcType="BIGINT" property="id"/>
+    <result column="m1_page_name" jdbcType="VARCHAR" property="pageName" />
+    <result column="m1_page_url" jdbcType="VARCHAR" property="pageUrl" />
+    <result column="m1_page_method" jdbcType="CHAR" property="pageMethod" />
+    <result column="m1_page_catalog" jdbcType="TINYINT" property="pageCatalog" />
+    <result column="m1_parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="m1_create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="m1_modular_state" jdbcType="TINYINT" property="modularState" />
+    <collection property="children" ofType="com.sxgy.sp52.core.domain.AuthModulars">
+      <result column="m2_id" jdbcType="BIGINT" property="id"/>
+      <result column="m2_page_name" jdbcType="VARCHAR" property="pageName" />
+      <result column="m2_page_url" jdbcType="VARCHAR" property="pageUrl" />
+      <result column="m2_page_method" jdbcType="CHAR" property="pageMethod" />
+      <result column="m2_page_catalog" jdbcType="TINYINT" property="pageCatalog" />
+      <result column="m2_parent_id" jdbcType="BIGINT" property="parentId" />
+      <result column="m2_create_time" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="m2_modular_state" jdbcType="TINYINT" property="modularState" />
+      <collection property="children" ofType="com.sxgy.sp52.core.domain.AuthModulars">
+        <result column="m3_id" jdbcType="BIGINT" property="id"/>
+        <result column="m3_page_name" jdbcType="VARCHAR" property="pageName" />
+        <result column="m3_page_url" jdbcType="VARCHAR" property="pageUrl" />
+        <result column="m3_page_method" jdbcType="CHAR" property="pageMethod" />
+        <result column="m3_page_catalog" jdbcType="TINYINT" property="pageCatalog" />
+        <result column="m3_parent_id" jdbcType="BIGINT" property="parentId" />
+        <result column="m3_create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="m3_modular_state" jdbcType="TINYINT" property="modularState" />
+        <collection property="children" ofType="com.sxgy.sp52.core.domain.AuthModulars">
+          <result column="m0_id" jdbcType="BIGINT" property="id"/>
+          <result column="m0_page_name" jdbcType="VARCHAR" property="pageName" />
+          <result column="m0_page_url" jdbcType="VARCHAR" property="pageUrl" />
+          <result column="m0_page_method" jdbcType="CHAR" property="pageMethod" />
+          <result column="m0_page_catalog" jdbcType="TINYINT" property="pageCatalog" />
+          <result column="m0_parent_id" jdbcType="BIGINT" property="parentId" />
+          <result column="m0_create_time" jdbcType="TIMESTAMP" property="createTime" />
+          <result column="m0_modular_state" jdbcType="TINYINT" property="modularState" />
+        </collection>
+      </collection>
+    </collection>
+  </resultMap>
+  <select id="findAllAuthModulars" resultMap="BaseResultMap_AuthModulars">
+    SELECT
+      m1.id m1_id,m1.page_name m1_page_name,m1.page_url m1_page_url,m1.page_method m1_page_method,
+      m1.page_catalog m1_page_catalog, m1.parent_id m1_parent_id,m1.create_time m1_create_time,
+      m1.modular_state m1_modular_state,
+      m2.id m2_id,m2.page_name m2_page_name,m2.page_url m2_page_url,m2.page_method m2_page_method,
+      m2.page_catalog m2_page_catalog, m2.parent_id m2_parent_id,m2.create_time m2_create_time,
+      m2.modular_state m2_modular_state,
+      m3.id m3_id,m3.page_name m3_page_name,m3.page_url m3_page_url,m3.page_method m3_page_method,
+      m3.page_catalog m3_page_catalog, m3.parent_id m3_parent_id,m3.create_time m3_create_time,
+      m3.modular_state m3_modular_state,
+      m0.id m0_id,m0.page_name m0_page_name,m0.page_url m0_page_url,m0.page_method m0_page_method,
+      m0.page_catalog m0_page_catalog, m0.parent_id m0_parent_id,m0.create_time m0_create_time,
+      m0.modular_state m0_modular_state
+    FROM sp52_modular m1
+      LEFT JOIN sp52_modular m2 ON m1.id=m2.parent_id
+      LEFT JOIN sp52_modular m3 ON m2.id=m3.parent_id
+      LEFT JOIN sp52_modular m0 ON m3.id=m0.parent_id
+    WHERE
+      m1.modular_state=1 AND m2.modular_state=1 AND m3.modular_state=1 AND m0.modular_state=1
+  </select>
+</mapper>
