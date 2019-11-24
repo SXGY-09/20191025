@@ -11,6 +11,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -75,30 +76,26 @@ public class WebAop {
             String ip = IpUtil.getIpAddr(request);
 
             Object[] args = joinPoint.getArgs();
-            StringBuilder argsTypes = new StringBuilder();
             //记录请求信息
             log.info("请求URL：" + request.getRequestURL().toString());
             log.info("IP 地址：" + ip);
             log.info("请求方式：" + request.getMethod());
             log.info("请求时间：" + sdf.format(start));
             log.info("请求用户：" + name);
-            log.info("参数个数：" + args.length);
-            if (args.length > 0) {
-                for (Object arg : args) {
-                    if (arg != null) {
-                        argsTypes.append(arg.getClass().getName() + ",");
-                    } else {
-                        argsTypes.append("null,");
-                    }
-                }
-                argsTypes.deleteCharAt(argsTypes.length() - 1);
-                log.info("参数类型：" + argsTypes.toString());
-            }
-            log.info("Controller:" + joinPoint.getTarget().getClass().getTypeName()
-                    + "." + joinPoint.getTarget().getClass().getName());
             log.info("执行方法：" + joinPoint.getSignature().getDeclaringTypeName()
                     + "." + joinPoint.getSignature().getName());
-            log.info("执行参数：" + joinPoint.getArgs());
+            log.info("参数个数：" + args.length);
+            if (args.length > 0) {
+                for (int i = 0; i < args.length; i++) {
+                    StringBuilder sb = new StringBuilder("参数" + (i + 1) + "：");
+                    if (args[i] == null) {
+                        sb.append("???: null");
+                    } else {
+                        sb.append(args[i].getClass().getTypeName() + ": " + args[i].toString());
+                    }
+                    log.info(sb.toString());
+                }
+            }
             long end = System.currentTimeMillis();
             if (result instanceof ApiRp) {
                 ApiRp apiRp = (ApiRp) result;
