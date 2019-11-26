@@ -13,8 +13,8 @@ import java.util.Map;
  */
 @Data
 public class MemoryData {
-    //用于存储 用户-token，默认24小时过期
-    private static ExpiryMap<String, String> tokenMap = new ExpiryMap<>(1000 * 3600 * 24);
+    //用于存储 用户-token，默认10分钟过期
+    private static ExpiryMap tokenMap = new ExpiryMap();
     //用于存储 角色-权限
     private static Map roleModularMap = new HashMap();
     public static List<AuthRoleModulars> authRoleModulars;

@@ -62,7 +62,7 @@ public class AuthChecker {
         return apiRp;
     }
 
-    Map tokenMap = MemoryData.getTokenMap();
+    ExpiryMap tokenMap = MemoryData.getTokenMap();
 
     public String checkToken(HttpServletRequest request, Set<String> userRoles) {
         HttpSession session = request.getSession();
@@ -91,9 +91,10 @@ public class AuthChecker {
         session.setAttribute("roles",roles);
         String iKey = "i" + customer.getCustomerId();
         log.debug("tokenKey:"+iKey);
-        String oldToken = (String) tokenMap.get(iKey);
+        String oldToken = tokenMap.get(iKey);
         log.debug("系统储存的token:" + oldToken);
-        if (!token.equals(oldToken)) {
+        //验证token，如果验证通过将更新token到期时间
+        if (!tokenMap.validate(iKey,token)) {
             return "token已失效,URI: " + request.getRequestURI();
         }
         for (Map map :roles){

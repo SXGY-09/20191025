@@ -76,7 +76,7 @@ public class AdminServiceImpl implements AdminService {
         Long adminId= (Long) request.getSession().getAttribute("id");
         String tokenKey="i"+adminId;
         if(MemoryData.getTokenMap().containsKey(tokenKey)){
-            MemoryData.getTokenMap().remove(tokenKey);
+            MemoryData.getTokenMap().removeToken(tokenKey);
         }
         return ApiRp.success("注销成功");
     }

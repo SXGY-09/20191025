@@ -42,7 +42,7 @@ public class JwtUtil {
         String tokenKey = "i" + customerId;
         log.debug("tokenKey:" + tokenKey);
         //把token存入MemoryData
-        tokenMap.put(tokenKey, token);
+        tokenMap.addToken(tokenKey, token);
         return token;
     }
 

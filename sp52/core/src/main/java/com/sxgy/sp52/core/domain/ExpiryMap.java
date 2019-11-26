@@ -1,151 +1,168 @@
 package com.sxgy.sp52.core.domain;
 
-import java.util.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author SXGY_09
- * @description 带有效期的map
- * @date 2019-11-23 15:51
+ * @description 用于存储带有效期的token
+ * @date 2019-11-26 21:55
  */
-public class ExpiryMap<K,V> extends HashMap<K,V> {
-    private static final long serialVersionUID = 1L;
+public class ExpiryMap {
+    /**
+     * token允许最短有效时间：1 min
+     */
+    private static final long MIN_EXPIRY_TIME = 1000 * 60;
+    /**
+     * token允许最长有效时间：1 hour
+     */
+    private static final long MAX_EXPIRY_TIME = 1000 * 60 * 60;
+    /**
+     * token默认有效时间：10 min
+     */
+    private static final long DEFAULT_EXPIRY_TIME = 1000 * 60 * 10;
+    /**
+     * 有效期，默认10min
+     */
+    @Getter
+    @Setter
+    private long expiry;
+    /**
+     * 存储tokens
+     */
+    private Map<String, TokenModel> map;
+
+    public ExpiryMap() {
+        this.expiry = DEFAULT_EXPIRY_TIME;
+        map = new HashMap<>();
+    }
+
+    public ExpiryMap(long expiry) {
+        if (expiry < MIN_EXPIRY_TIME) {
+            expiry = MIN_EXPIRY_TIME;
+        } else if (expiry > MAX_EXPIRY_TIME) {
+            expiry = MAX_EXPIRY_TIME;
+        }
+        this.expiry = expiry;
+        map = new HashMap<>();
+    }
 
     /**
-     * default expiry time 2m
-     * 默认有效期，0.5小时
+     * 添加一个key-token，覆盖已存在
+     *
+     * @param key   tokenKey
+     * @param token tokenValue
      */
-    private long EXPIRY = 1000 * 60 * 30;
+    public void addToken(String key, String token) {
+        map.put(key, new TokenModel(token));
+    }
 
-    private HashMap<K, Long> expiryMap = new HashMap<>();
-
-    public ExpiryMap(){
-        super();
-    }
-    public ExpiryMap(long defaultExpiryTime){
-        this(1 << 4, defaultExpiryTime);
-    }
-    public ExpiryMap(int initialCapacity, long defaultExpiryTime){
-        super(initialCapacity);
-        this.EXPIRY = defaultExpiryTime;
-    }
-    public V put(K key, V value) {
-        expiryMap.put(key, System.currentTimeMillis() + EXPIRY);
-        return super.put(key, value);
-    }
-    public boolean containsKey(Object key) {
-        return !checkExpiry(key, true) && super.containsKey(key);
-    }
     /**
-     * @param key
-     * @param value
-     * @param expiryTime 键值对有效期 毫秒
-     * @return
+     * 判断是否存在token
+     *
+     * @param key tokenKey
+     * @return true if contains
      */
-    public V put(K key, V value, long expiryTime) {
-        expiryMap.put(key, System.currentTimeMillis() + expiryTime);
-        return super.put(key, value);
+    public boolean containsKey(String key) {
+        return map.containsKey(key);
     }
-    public int size() {
-        return entrySet().size();
+
+    /**
+     * 获取token
+     *
+     * @param key tokenKey
+     * @return token
+     */
+    public String get(String key) {
+        return map.get(key).token;
     }
-    public boolean isEmpty() {
-        return entrySet().size() == 0;
+
+    /**
+     * 判断是否过期
+     *
+     * @param key tokenKey
+     * @return true if expired
+     */
+    public boolean isExpired(String key) {
+        return !containsKey(key) || map.get(key).isExpired();
     }
-    public boolean containsValue(Object value) {
-        if (value == null) return Boolean.FALSE;
-        Set<Entry<K, V>> set = super.entrySet();
-        Iterator<Entry<K, V>> iterator = set.iterator();
-        while (iterator.hasNext()) {
-            Entry<K, V> entry = iterator.next();
-            if(value.equals(entry.getValue())){
-                if(checkExpiry(entry.getKey(), false)) {
-                    iterator.remove();
-                    return Boolean.FALSE;
-                }else return Boolean.TRUE;
+
+    /**
+     * 判断token是否有效
+     *
+     * @param key   tokenKey
+     * @param token tokenValue
+     * @return true if effective
+     */
+    public boolean validate(String key, String token) {
+        return !isExpired(key) && map.get(key).validate(token);
+    }
+
+    /**
+     * 删除token
+     *
+     * @param key tokenKey
+     */
+    public void removeToken(String key) {
+        map.remove(key);
+    }
+
+    /**
+     * 清空tokens
+     */
+    public void clear() {
+        map.clear();
+    }
+
+    /**
+     * Token模型类
+     */
+    private class TokenModel {
+        /**
+         * token值
+         */
+        private String token;
+        /**
+         * token到期时间
+         */
+        private long expiryTime;
+
+        private TokenModel(String token) {
+            this.token = token;
+            this.update();
+        }
+
+        /**
+         * 刷新到期时间
+         */
+        private void update() {
+            this.expiryTime = System.currentTimeMillis() + expiry;
+        }
+
+        /**
+         * 验证token
+         *
+         * @param token token
+         * @return true:有效, false:无效
+         */
+        private boolean validate(String token) {
+            if (isExpired() || !token.equals(this.token)) {
+                return false;
             }
-        }
-        return Boolean.FALSE;
-    }
-    public Collection<V> values() {
-
-        Collection<V> values = super.values();
-
-        if(values == null || values.size() < 1) return values;
-
-        Iterator<V> iterator = values.iterator();
-
-        while (iterator.hasNext()) {
-            V next = iterator.next();
-            if(!containsValue(next)) iterator.remove();
-        }
-        return values;
-    }
-    public V get(Object key) {
-        if (key == null)
-            return null;
-        if(checkExpiry(key, true))
-            return null;
-        return super.get(key);
-    }
-    /**
-     *
-     * 是否过期
-     * @param key
-     * @return null:不存在或key为null -1:过期  存在且没过期返回value 因为过期的不是实时删除，所以稍微有点作用
-     */
-    public Object isInvalid(Object key) {
-        if (key == null)
-            return null;
-        if(!expiryMap.containsKey(key)){
-            return null;
-        }
-        long expiryTime = expiryMap.get(key);
-
-        boolean flag = System.currentTimeMillis() > expiryTime;
-
-        if(flag){
-            super.remove(key);
-            expiryMap.remove(key);
-            return -1;
-        }
-        return super.get(key);
-    }
-    public void putAll(Map<? extends K, ? extends V> m) {
-        for (Entry<? extends K, ? extends V> e : m.entrySet())
-            expiryMap.put(e.getKey(), System.currentTimeMillis() + EXPIRY);
-        super.putAll(m);
-    }
-    public Set<Entry<K,V>> entrySet() {
-        Set<Entry<K, V>> set = super.entrySet();
-        Iterator<Entry<K, V>> iterator = set.iterator();
-        while (iterator.hasNext()) {
-            Entry<K, V> entry = iterator.next();
-            if(checkExpiry(entry.getKey(), false)) iterator.remove();
+            this.update();
+            return true;
         }
 
-        return set;
-    }
-    /**
-     *
-     * 是否过期
-     * @date 2016-11-24 下午4:05:02
-     * @param isRemoveSuper true super删除
-     * @return boolean
-     */
-    private boolean checkExpiry(Object key, boolean isRemoveSuper){
-
-        if(!expiryMap.containsKey(key)){
-            return Boolean.FALSE;
+        /**
+         * 判断是否过期
+         *
+         * @return true:过期, false:未过期
+         */
+        private boolean isExpired() {
+            return System.currentTimeMillis() > this.expiryTime;
         }
-        long expiryTime = expiryMap.get(key);
-
-        boolean flag = System.currentTimeMillis() > expiryTime;
-
-        if(flag){
-            if(isRemoveSuper)
-                super.remove(key);
-            expiryMap.remove(key);
-        }
-        return flag;
     }
 }
