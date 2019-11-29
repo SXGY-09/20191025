@@ -1,4 +1,4 @@
-package com.sxgy.sp52.core.mapper;
+package com.sxgy.sp52.business.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.sxgy.sp52.core.pojo.Sp52Student;

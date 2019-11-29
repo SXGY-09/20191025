@@ -30,13 +30,13 @@
         <!--针对mysql数据库,读取表注释-->
             <property name="useInformationSchema" value="true"/>
         </jdbcConnection>
-        <javaModelGenerator targetPackage="com.sxgy.sp52.core.pojo"
-                            targetProject="src/main/java"/>
-        <sqlMapGenerator targetPackage="com.sxgy.sp52.core.mapper"
-                         targetProject="src/main/resources"/>
+        <javaModelGenerator targetPackage="pojo"
+                            targetProject="../files/mybatis"/>
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject="../files/mybatis"/>
         <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.sxgy.sp52.core.mapper"
-                             targetProject="src/main/java"/>
+                             targetPackage="mapper"
+                             targetProject="../files/mybatis"/>
         <table tableName="sp52_%" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false" selectByExampleQueryId="false">

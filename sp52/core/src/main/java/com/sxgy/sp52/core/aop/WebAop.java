@@ -1,6 +1,9 @@
 package com.sxgy.sp52.core.aop;
 
+import com.sxgy.sp52.core.aop.dto.SimpleLog;
 import com.sxgy.sp52.core.domain.ApiRp;
+import com.sxgy.sp52.core.pojo.Sp52Log;
+import com.sxgy.sp52.core.service.LogService;
 import com.sxgy.sp52.core.util.internet.IpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
@@ -25,6 +29,9 @@ import java.util.Date;
 @Slf4j
 public class WebAop {
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    @Resource
+    private LogService logService;
 
     @Pointcut("execution(* com.sxgy.sp52.*.controller.*.*(..))")
     public void exec() {
@@ -57,6 +64,12 @@ public class WebAop {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         HttpSession session = request.getSession();
+        SimpleLog simpleLog = getSimpleLog(joinPoint);
+        Sp52Log operationLog = new Sp52Log();
+        operationLog.setOperatorId((Long) session.getAttribute("id"));
+        operationLog.setOperatorName((String) session.getAttribute("name"));
+        operationLog.setLogName(simpleLog.getName());
+        operationLog.setLogValue(simpleLog.getValue());
         try {
             Object result = joinPoint.proceed();
             if (result == null) {
@@ -104,10 +117,43 @@ public class WebAop {
             }
             log.info("AOP处理耗时" + (end - start) + "ms");
             log.info("<===around return " + sdf.format(new Date()));
+            operationLog.setLogState("成功");
+            operationLog.setLogTime(new Date());
             return result;
         } catch (Throwable t) {
             log.info("<===around throw " + sdf.format(new Date()));
+            operationLog.setLogState("失败");
+            operationLog.setLogTime(new Date());
             throw t;
+        } finally {
+            new Thread(() -> logService.insertLog(operationLog)).start();
         }
+    }
+
+    /**
+     * 获取方法的日志注解
+     *
+     * @param joinPoint 节点
+     * @return SimpleLog
+     * @throws Exception 反射解析异常
+     */
+    private static SimpleLog getSimpleLog(ProceedingJoinPoint joinPoint) throws Exception {
+        SimpleLog simpleLog = new SimpleLog();
+        Class clazz = joinPoint.getTarget().getClass();
+        String methodName = joinPoint.getSignature().getName();
+        Method[] methods = clazz.getMethods();
+        Object[] args = joinPoint.getArgs();
+        for (Method method : methods) {
+            if (method.getName().equals(methodName)) {
+                if (method.getParameterTypes().length == args.length) {
+                    if (method.getAnnotation(Log.class) != null) {
+                        simpleLog.setName(method.getAnnotation(Log.class).name());
+                        simpleLog.setValue(method.getAnnotation(Log.class).value());
+                    }
+                    break;
+                }
+            }
+        }
+        return simpleLog;
     }
 }

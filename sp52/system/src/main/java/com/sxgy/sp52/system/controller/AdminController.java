@@ -1,5 +1,6 @@
 package com.sxgy.sp52.system.controller;
 
+import com.sxgy.sp52.core.aop.Log;
 import com.sxgy.sp52.core.domain.ApiRp;
 import com.sxgy.sp52.system.service.AdminService;
 import com.sxgy.sp52.system.vo.LoginResponseVo;
@@ -25,24 +26,28 @@ public class AdminController {
 
     /**
      * 登录
+     *
      * @param loginVo 账号密码
      * @param request 请求
      * @return 登录token等信息
      */
     @PostMapping("/ifLogin")
     @ApiOperation(value = "登录", response = LoginResponseVo.class)
-    public ApiRp ifLogin(@RequestBody LoginVo loginVo, HttpServletRequest request){
-        return ApiRp.success("登录成功", adminService.ifLogin(loginVo,request));
+    @Log(name = "人员管理", value = "登录")
+    public ApiRp ifLogin(@RequestBody LoginVo loginVo, HttpServletRequest request) {
+        return ApiRp.success("登录成功", adminService.ifLogin(loginVo, request));
     }
 
     /**
      * 注销
+     *
      * @param request 请求
      * @return msg
      */
     @DeleteMapping("/ifLogout")
     @ApiOperation(value = "注销")
-    public ApiRp ifLogout(HttpServletRequest request){
+    @Log(name = "人员管理", value = "注销")
+    public ApiRp ifLogout(HttpServletRequest request) {
         return adminService.ifLogout(request);
     }
 }
