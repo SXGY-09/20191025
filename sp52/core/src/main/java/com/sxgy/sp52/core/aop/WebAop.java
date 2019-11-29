@@ -117,6 +117,8 @@ public class WebAop {
             }
             log.info("AOP处理耗时" + (end - start) + "ms");
             log.info("<===around return " + sdf.format(new Date()));
+            operationLog.setOperatorId((Long) session.getAttribute("id"));
+            operationLog.setOperatorName((String) session.getAttribute("name"));
             operationLog.setLogState("成功");
             operationLog.setLogTime(new Date());
             return result;

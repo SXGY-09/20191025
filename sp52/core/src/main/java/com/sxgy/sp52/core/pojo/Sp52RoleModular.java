@@ -1,5 +1,7 @@
 package com.sxgy.sp52.core.pojo;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -25,6 +27,7 @@ public class Sp52RoleModular implements Serializable {
      * 角色-模块表id
      */
     @ApiModelProperty(name = "id", value = "角色-模块表主键", dataType = "Long")
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
